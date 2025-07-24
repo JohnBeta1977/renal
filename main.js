@@ -1,12 +1,21 @@
 // Importar módulos de Firebase
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, signOut } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-// Variables globales de Firebase (proporcionadas por el entorno Canvas)
-const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
-const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+// Tu configuración real de Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyB1EB6VDP8l0r6aZbLnNvnIFQcQi_AmCFg",
+    authDomain: "app-renal.firebaseapp.com",
+    projectId: "app-renal",
+    storageBucket: "app-renal.firebasestorage.app",
+    messagingSenderId: "161042778606",
+    appId: "1:161042778606:web:6bde9f814bd74de7a1e6ff",
+    measurementId: "G-THRNT9J3ST"
+};
+
+// El appId para Firestore, tomado de tu configuración
+const appId = firebaseConfig.projectId;
 
 // Inicializar Firebase
 const app = initializeApp(firebaseConfig);
@@ -73,10 +82,9 @@ function showSection(sectionToShow) {
 document.addEventListener('DOMContentLoaded', async () => {
     // 1. Mostrar el contenedor principal de la aplicación inmediatamente
     appContainer.style.display = 'flex';
-    console.log('App container should now be visible (display: flex).'); // Confirmación de visibilidad
+    console.log('App container is now visible (display: flex).'); // Confirmación de visibilidad
 
     // 2. Manejo de autenticación inicial de Firebase
-    // Este listener se dispara asíncronamente. La sección inicial se mostrará una vez que se resuelva el estado de autenticación.
     onAuthStateChanged(auth, async (user) => {
         if (!authChecked) { // Solo ejecutar esta lógica una vez en la carga inicial
             authChecked = true; // Marca que la verificación inicial ya se hizo
@@ -87,32 +95,24 @@ document.addEventListener('DOMContentLoaded', async () => {
                 showSection(mainAppSection);
             } else {
                 console.log('No hay usuario autenticado.');
-                // Si no hay usuario, intenta iniciar sesión anónimamente o con token
-                if (initialAuthToken) {
-                    try {
-                        await signInWithCustomToken(auth, initialAuthToken);
-                        console.log('Sesión iniciada con token personalizado.');
-                    } catch (error) {
-                        console.error('Error al iniciar sesión con token personalizado:', error);
-                        await signInAnonymously(auth);
-                        console.log('Sesión iniciada anónimamente como fallback.');
-                    }
-                } else {
+                // Si no hay usuario, inicia sesión anónimamente por defecto
+                // No usamos initialAuthToken aquí ya que estamos usando tu config directa
+                try {
                     await signInAnonymously(auth);
                     console.log('Sesión iniciada anónimamente.');
+                } catch (error) {
+                    console.error('Error al iniciar sesión anónimamente:', error);
                 }
                 // Muestra la sección de login por defecto si no hay usuario logueado
                 showSection(loginSection);
             }
         }
-        // Para cambios de estado de autenticación posteriores (ej. login/logout después de la carga inicial),
-        // la lógica de showSection ya está manejada por los eventos de los formularios/botones.
     });
 
     // 3. Registro del Service Worker
     if ('serviceWorker' in navigator) {
         try {
-            // Asegúrate de que la ruta del Service Worker sea correcta para GitHub Pages
+            // Ruta corregida para el Service Worker en GitHub Pages
             const registration = await navigator.serviceWorker.register('/renal/service-worker.js');
             console.log('Service Worker registrado con éxito:', registration);
         } catch (error) {
@@ -225,6 +225,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             // Guardar datos adicionales del usuario en Firestore
             const userId = user.uid;
+            // La ruta para guardar datos privados de usuario en Firestore debe ser:
+            // /artifacts/{appId}/users/{userId}/{your_collection_name}/{documentId}
             await setDoc(doc(db, `artifacts/${appId}/users/${userId}/profile`, "data"), {
                 fullName: document.getElementById('reg-full-name').value,
                 bloodType: document.getElementById('reg-blood-type').value,
@@ -288,15 +290,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     // 11. Placeholder para solicitar permiso de notificaciones (se activará más adelante)
-    // Puedes añadir un botón o un evento para llamar a esta función
-    // Por ejemplo: document.getElementById('request-notification-permission-button').addEventListener('click', requestNotificationPermission);
     async function requestNotificationPermission() {
         if ('Notification' in window) {
             const permission = await Notification.requestPermission();
             if (permission === 'granted') {
                 showCustomModal('Notificaciones', 'Permiso de notificaciones concedido. ¡Recibirás recordatorios importantes!');
                 console.log('Permiso de notificaciones concedido.');
-                // Aquí podrías inicializar Firebase Cloud Messaging si lo usas
             } else {
                 showCustomModal('Notificaciones', 'Permiso de notificaciones denegado. No podrás recibir recordatorios.');
                 console.log('Permiso de notificaciones denegado.');
@@ -306,6 +305,4 @@ document.addEventListener('DOMContentLoaded', async () => {
             console.log('El navegador no soporta notificaciones.');
         }
     }
-    // Para probar, puedes descomentar la siguiente línea para solicitar permiso al cargar la app
-    // requestNotificationPermission();
 });
