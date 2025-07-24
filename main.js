@@ -14,7 +14,6 @@ const auth = getAuth(app);
 const db = getFirestore(app); // Se inicializa Firestore para uso futuro si es necesario
 
 // Referencias a elementos del DOM
-const splashScreen = document.getElementById('splash-screen');
 const appContainer = document.getElementById('app-container');
 
 // Secciones de la aplicación
@@ -72,64 +71,56 @@ function showSection(sectionToShow) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Manejo del splash screen y la carga inicial de la aplicación
-    // Esta lógica se ejecuta primero para controlar la secuencia de aparición.
-    setTimeout(() => {
-        splashScreen.classList.add('hidden'); // Inicia la transición de opacidad del splash
-        setTimeout(() => {
-            splashScreen.style.display = 'none'; // Oculta completamente el splash después de la transición
-            appContainer.style.display = 'flex'; // Muestra el contenedor principal de la aplicación
-            console.log('App container should now be visible (display: flex).'); // Confirmación de visibilidad
+    // 1. Mostrar el contenedor principal de la aplicación inmediatamente
+    appContainer.style.display = 'flex';
+    console.log('App container should now be visible (display: flex).'); // Confirmación de visibilidad
 
-            // Una vez que el contenedor principal es visible,
-            // podemos configurar el listener de autenticación de Firebase.
-            // Esto asegura que showSection se llame solo cuando appContainer esté listo.
-            onAuthStateChanged(auth, async (user) => {
-                if (!authChecked) { // Solo ejecutar esta lógica una vez en la carga inicial
-                    authChecked = true; // Marca que la verificación inicial ya se hizo
+    // 2. Manejo de autenticación inicial de Firebase
+    // Este listener se dispara asíncronamente. La sección inicial se mostrará una vez que se resuelva el estado de autenticación.
+    onAuthStateChanged(auth, async (user) => {
+        if (!authChecked) { // Solo ejecutar esta lógica una vez en la carga inicial
+            authChecked = true; // Marca que la verificación inicial ya se hizo
 
-                    if (user) {
-                        console.log('Usuario autenticado:', user.uid);
-                        // Si el usuario está autenticado, redirige a la sección principal de la app
-                        showSection(mainAppSection);
-                    } else {
-                        console.log('No hay usuario autenticado.');
-                        // Si no hay usuario, intenta iniciar sesión anónimamente o con token
-                        if (initialAuthToken) {
-                            try {
-                                await signInWithCustomToken(auth, initialAuthToken);
-                                console.log('Sesión iniciada con token personalizado.');
-                            } catch (error) {
-                                console.error('Error al iniciar sesión con token personalizado:', error);
-                                await signInAnonymously(auth);
-                                console.log('Sesión iniciada anónimamente como fallback.');
-                            }
-                        } else {
-                            await signInAnonymously(auth);
-                            console.log('Sesión iniciada anónimamente.');
-                        }
-                        // Muestra la sección de login por defecto si no hay usuario logueado
-                        showSection(loginSection);
+            if (user) {
+                console.log('Usuario autenticado:', user.uid);
+                // Si el usuario está autenticado, redirige a la sección principal de la app
+                showSection(mainAppSection);
+            } else {
+                console.log('No hay usuario autenticado.');
+                // Si no hay usuario, intenta iniciar sesión anónimamente o con token
+                if (initialAuthToken) {
+                    try {
+                        await signInWithCustomToken(auth, initialAuthToken);
+                        console.log('Sesión iniciada con token personalizado.');
+                    } catch (error) {
+                        console.error('Error al iniciar sesión con token personalizado:', error);
+                        await signInAnonymously(auth);
+                        console.log('Sesión iniciada anónimamente como fallback.');
                     }
+                } else {
+                    await signInAnonymously(auth);
+                    console.log('Sesión iniciada anónimamente.');
                 }
-                // Para cambios de estado de autenticación posteriores (ej. login/logout después de la carga inicial),
-                // la lógica de showSection ya está manejada por los eventos de los formularios/botones.
-            });
+                // Muestra la sección de login por defecto si no hay usuario logueado
+                showSection(loginSection);
+            }
+        }
+        // Para cambios de estado de autenticación posteriores (ej. login/logout después de la carga inicial),
+        // la lógica de showSection ya está manejada por los eventos de los formularios/botones.
+    });
 
-        }, 500); // Coincide con la duración de la transición CSS (0.5s)
-    }, 1500); // Duración del splash screen: 1.5 segundos
-
-    // 2. Registro del Service Worker (puede ir fuera del timeout ya que no afecta la visibilidad inicial)
+    // 3. Registro del Service Worker
     if ('serviceWorker' in navigator) {
         try {
-            const registration = await navigator.serviceWorker.register('service-worker.js');
+            // Asegúrate de que la ruta del Service Worker sea correcta para GitHub Pages
+            const registration = await navigator.serviceWorker.register('/renal/service-worker.js');
             console.log('Service Worker registrado con éxito:', registration);
         } catch (error) {
             console.error('Fallo el registro del Service Worker:', error);
         }
     }
 
-    // 3. Manejo del evento beforeinstallprompt para el botón de instalación de PWA
+    // 4. Manejo del evento beforeinstallprompt para el botón de instalación de PWA
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault(); // Evita que el navegador muestre su propio prompt
         deferredPrompt = e; // Almacena el evento para usarlo más tarde
@@ -153,7 +144,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.log('PWA instalada con éxito.');
     });
 
-    // 4. Manejo de la navegación entre secciones (Login y Registro)
+    // 5. Manejo de la navegación entre secciones (Login y Registro)
     newUserLink.addEventListener('click', (e) => {
         e.preventDefault();
         showSection(registerSection);
@@ -167,7 +158,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         passwordMatchError.classList.add('hidden');
     });
 
-    // 5. Lógica para el botón de "Acceso como Visitante"
+    // 6. Lógica para el botón de "Acceso como Visitante"
     visitorButton.addEventListener('click', async (e) => {
         e.preventDefault();
         try {
@@ -182,7 +173,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // 6. Manejo del envío del formulario de Inicio de Sesión (con Firebase Auth)
+    // 7. Manejo del envío del formulario de Inicio de Sesión (con Firebase Auth)
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = e.target[0].value;
@@ -212,7 +203,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // 7. Manejo del envío del formulario de Registro (con Firebase Auth)
+    // 8. Manejo del envío del formulario de Registro (con Firebase Auth)
     registerForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (regPassword.value !== regConfirmPassword.value) {
@@ -267,7 +258,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // 8. Lógica de cerrar sesión
+    // 9. Lógica de cerrar sesión
     logoutButton.addEventListener('click', async () => {
         try {
             await signOut(auth);
@@ -280,7 +271,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // 9. Validación de coincidencia de contraseñas en tiempo real
+    // 10. Validación de coincidencia de contraseñas en tiempo real
     regConfirmPassword.addEventListener('input', () => {
         if (regPassword.value !== regConfirmPassword.value) {
             passwordMatchError.classList.remove('hidden');
@@ -296,7 +287,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // 10. Placeholder para solicitar permiso de notificaciones (se activará más adelante)
+    // 11. Placeholder para solicitar permiso de notificaciones (se activará más adelante)
     // Puedes añadir un botón o un evento para llamar a esta función
     // Por ejemplo: document.getElementById('request-notification-permission-button').addEventListener('click', requestNotificationPermission);
     async function requestNotificationPermission() {
