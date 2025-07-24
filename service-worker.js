@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pwa-salud-cache-v1';
+const CACHE_NAME = 'renalapp-cache-v1';
 const REPO_BASE_PATH = '/renal/'; 
 
 const urlsToCache = [
@@ -9,6 +9,7 @@ const urlsToCache = [
     `${REPO_BASE_PATH}logo.png`,
     `${REPO_BASE_PATH}fondo_01.jpg`,
     'https://cdn.tailwindcss.com',
+    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css'
 ];
 
 // Evento 'install': Se ejecuta cuando el Service Worker se instala por primera vez
