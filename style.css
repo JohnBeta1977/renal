@@ -10,12 +10,32 @@ body {
     background-attachment: fixed; /* Mantiene la imagen fija al hacer scroll */
 }
 
+/* Estilos para el splash screen */
+#splash-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(to bottom right, #3B82F6, #1D4ED8); /* Degradado azul */
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    opacity: 1;
+    transition: opacity 0.5s ease-out; /* Transición suave para el desvanecimiento */
+}
+
+#splash-screen.hidden {
+    opacity: 0;
+    pointer-events: none; /* Permite clics a través una vez oculto */
+}
+
 /* Estilos para el contenedor principal de la aplicación */
 #app-container {
-    display: flex; /* Ahora es visible por defecto */
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    display: none; /* Oculto inicialmente, se muestra después del splash */
     height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la ventana */
     background: linear-gradient(to bottom right, #3B82F6, #1D4ED8); 
     padding: 1rem;
@@ -41,6 +61,8 @@ section.active-section {
     max-width: 400px; /* Ancho máximo para formularios */
     width: 100%;
     margin: 2rem auto; /* Centrar y añadir margen */
+    max-height: 90vh; /* Altura máxima para permitir scroll en el formulario */
+    overflow-y: auto; /* Habilita el scroll dentro del formulario si es necesario */
 }
 
 /* Estilos para campos de entrada */
@@ -231,4 +253,152 @@ section.active-section {
 
 #install-button:active {
     transform: translateY(0);
+}
+
+/* NUEVOS ESTILOS PARA LA INTERFAZ BASE */
+
+/* Encabezado Superior para la app principal */
+.app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(to right, rgba(59, 130, 246, 0.9), rgba(29, 78, 216, 0.9)); /* Azul con 90% de opacidad */
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 50; /* Por encima del contenido, debajo del modal */
+    box-sizing: border-box;
+    height: 64px; /* Altura fija para el header */
+}
+
+/* Encabezado Superior para formularios de login/registro (misma apariencia) */
+.app-header-form {
+    width: calc(100% + 4rem); /* Ocupa el ancho completo de la tarjeta + padding */
+    margin: -2rem -2rem 1rem -2rem; /* Ajusta los márgenes para que se extienda */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(to right, rgba(59, 130, 246, 0.9), rgba(29, 78, 216, 0.9));
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 50;
+    box-sizing: border-box;
+    height: 64px;
+    border-top-left-radius: 1rem; /* Hereda el redondeo de la tarjeta */
+    border-top-right-radius: 1rem;
+}
+
+
+.app-header img, .app-header-form img {
+    height: 32px;
+    width: 32px;
+    border-radius: 0.25rem; /* Pequeño redondeo para el logo */
+}
+
+.app-header h1, .app-header-form h1 {
+    font-size: 1.25rem; /* Ajustar tamaño de fuente del título */
+    margin-bottom: 0; /* Eliminar margen inferior si lo tuviera */
+}
+
+.header-line {
+    flex-grow: 1; /* Ocupa el espacio disponible */
+    height: 16px; /* Altura de la línea */
+    background-color: #2563EB; /* Azul más oscuro para la línea */
+    margin: 0 1rem; /* Espacio a los lados de la línea */
+    border-radius: 9999px; /* Línea redondeada */
+}
+
+/* Menú desplegable del encabezado */
+#header-dropdown-menu {
+    top: calc(100% + 5px); /* Posicionar debajo del botón */
+    min-width: 160px; /* Ancho mínimo */
+}
+
+#header-dropdown-menu a {
+    font-size: 0.95rem;
+}
+
+
+/* Barra de Navegación Inferior */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: rgba(29, 78, 216, 0.5); /* Azul con 50% de opacidad */
+    padding: 0.5rem 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 50; /* Por encima del contenido, debajo del modal */
+    backdrop-filter: blur(5px); /* Efecto de desenfoque */
+    -webkit-backdrop-filter: blur(5px); /* Compatibilidad Safari */
+    height: 70px; /* Altura fija para la barra de navegación */
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: black; /* Iconos y texto negros por defecto */
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 600;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.nav-item .nav-icon {
+    font-size: 1.5rem; /* Tamaño de los iconos */
+    margin-bottom: 0.25rem;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.nav-item.active-nav {
+    color: white; /* Icono y texto blanco cuando activo */
+    text-shadow: 0 0 8px rgba(59, 130, 246, 0.8); /* Sombra azul */
+}
+
+/* Ajuste del contenido principal para dejar espacio al header y footer */
+#main-app-section {
+    padding-top: 64px; /* Altura del header */
+    padding-bottom: 70px; /* Altura del footer */
+    height: 100vh; /* Ocupa toda la altura de la ventana */
+    box-sizing: border-box; /* Incluye padding en el cálculo de la altura */
+    width: 100%;
+    max-width: none; /* Eliminar max-width para que ocupe todo el ancho disponible */
+    background: none; /* Eliminar el degradado azul de la sección principal */
+    color: #333; /* Color de texto predeterminado para el contenido */
+    text-align: left; /* Alinear texto a la izquierda en las subsecciones */
+}
+
+/* Estilos para las sub-secciones de la aplicación */
+.app-sub-section {
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semitransparente para el contenido */
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem; /* Margen entre secciones si hay varias */
+    min-height: calc(100vh - 64px - 70px - 2rem); /* Altura mínima para que el contenido no se colapse */
+    display: none; /* Oculto por defecto */
+}
+
+.app-sub-section.active-sub-section {
+    display: block; /* Muestra la sub-sección activa */
+}
+
+#profile-photo-display {
+    border-color: #3B82F6; /* Borde azul para la foto de perfil */
+}
+
+#user-profile-info p {
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
 }
