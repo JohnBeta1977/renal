@@ -1,6 +1,6 @@
 // Importar módulos de Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, signOut } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+import { getAuth, signInAnonymously, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, signOut } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
 import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 // Tu configuración real de Firebase
@@ -14,7 +14,7 @@ const firebaseConfig = {
     measurementId: "G-THRNT9J3ST"
 };
 
-// El appId para Firestore, tomado de tu configuración
+// El appId para Firestore, tomado de tu configuración de Firebase
 const appId = firebaseConfig.projectId;
 
 // Inicializar Firebase
@@ -28,7 +28,7 @@ const appContainer = document.getElementById('app-container');
 // Secciones de la aplicación
 const loginSection = document.getElementById('login-section');
 const registerSection = document.getElementById('register-section');
-const mainAppSection = document.getElementById('main-app-section'); // Nueva sección para el contenido principal
+const mainAppSection = document.getElementById('main-app-section'); // Sección para el contenido principal de la app
 
 const newUserLink = document.getElementById('new-user-link');
 const backToLoginLink = document.getElementById('back-to-login-link');
@@ -80,11 +80,38 @@ function showSection(sectionToShow) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Mostrar el contenedor principal de la aplicación inmediatamente
-    appContainer.style.display = 'flex';
-    console.log('App container is now visible (display: flex).'); // Confirmación de visibilidad
+    // El contenedor principal de la aplicación ya es visible por defecto en style.css
+    console.log('App container is now visible (display: flex).');
 
-    // 2. Manejo de autenticación inicial de Firebase
+    // 1. Lógica para crear un usuario de simulación (SOLO PARA PRUEBAS - ELIMINAR EN PRODUCCIÓN)
+    // Este bloque intenta crear un usuario "john@example.com" con contraseña "123456"
+    // si no existe. Esto es útil para pruebas rápidas sin registro manual.
+    // ¡IMPORTANTE! Elimina o comenta este bloque antes de desplegar en producción.
+    const simulationEmail = 'john@example.com';
+    const simulationPassword = '123456';
+    try {
+        await createUserWithEmailAndPassword(auth, simulationEmail, simulationPassword);
+        console.log(`Usuario de simulación '${simulationEmail}' creado con éxito.`);
+        // No se envía correo de verificación para el usuario de simulación para simplificar la prueba
+        // y se asume que se puede iniciar sesión directamente.
+        // Si necesitas que el usuario de simulación esté verificado, tendrías que simular la verificación
+        // en la consola de Firebase o manejarlo en tu lógica de prueba.
+    } catch (error) {
+        if (error.code === 'auth/email-already-in-use') {
+            console.log(`Usuario de simulación '${simulationEmail}' ya existe.`);
+        } else {
+            console.error('Error al crear usuario de simulación:', error.code, error.message);
+        }
+    }
+    // FIN DEL BLOQUE DE USUARIO DE SIMULACIÓN
+
+    // 2. Mostrar directamente la sección de registro al cargar
+    // Si el usuario ya está autenticado (por ejemplo, por una sesión previa o el usuario de simulación),
+    // la lógica de onAuthStateChanged lo redirigirá a mainAppSection.
+    showSection(registerSection);
+    console.log('Showing register section directly on load.');
+
+    // 3. Manejo de autenticación inicial de Firebase (se mantiene para la lógica de sesión)
     onAuthStateChanged(auth, async (user) => {
         if (!authChecked) { // Solo ejecutar esta lógica una vez en la carga inicial
             authChecked = true; // Marca que la verificación inicial ya se hizo
@@ -92,24 +119,23 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (user) {
                 console.log('Usuario autenticado:', user.uid);
                 // Si el usuario está autenticado, redirige a la sección principal de la app
-                showSection(mainAppSection);
+                showSection(mainAppSection); 
             } else {
                 console.log('No hay usuario autenticado.');
                 // Si no hay usuario, inicia sesión anónimamente por defecto
-                // No usamos initialAuthToken aquí ya que estamos usando tu config directa
                 try {
                     await signInAnonymously(auth);
                     console.log('Sesión iniciada anónimamente.');
                 } catch (error) {
                     console.error('Error al iniciar sesión anónimamente:', error);
                 }
-                // Muestra la sección de login por defecto si no hay usuario logueado
-                showSection(loginSection);
+                // La sección de login no se muestra por defecto aquí, ya que se pidió la de registro.
+                // Si el usuario cierra sesión, se volverá a la de login.
             }
         }
     });
 
-    // 3. Registro del Service Worker
+    // 4. Registro del Service Worker
     if ('serviceWorker' in navigator) {
         try {
             // Ruta corregida para el Service Worker en GitHub Pages
@@ -120,7 +146,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // 4. Manejo del evento beforeinstallprompt para el botón de instalación de PWA
+    // 5. Manejo del evento beforeinstallprompt para el botón de instalación de PWA
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault(); // Evita que el navegador muestre su propio prompt
         deferredPrompt = e; // Almacena el evento para usarlo más tarde
@@ -144,7 +170,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.log('PWA instalada con éxito.');
     });
 
-    // 5. Manejo de la navegación entre secciones (Login y Registro)
+    // 6. Manejo de la navegación entre secciones (Login y Registro)
     newUserLink.addEventListener('click', (e) => {
         e.preventDefault();
         showSection(registerSection);
@@ -158,7 +184,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         passwordMatchError.classList.add('hidden');
     });
 
-    // 6. Lógica para el botón de "Acceso como Visitante"
+    // 7. Lógica para el botón de "Acceso como Visitante"
     visitorButton.addEventListener('click', async (e) => {
         e.preventDefault();
         try {
@@ -173,7 +199,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // 7. Manejo del envío del formulario de Inicio de Sesión (con Firebase Auth)
+    // 8. Manejo del envío del formulario de Inicio de Sesión (con Firebase Auth)
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const email = e.target[0].value;
@@ -203,7 +229,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // 8. Manejo del envío del formulario de Registro (con Firebase Auth)
+    // 9. Manejo del envío del formulario de Registro (con Firebase Auth)
     registerForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (regPassword.value !== regConfirmPassword.value) {
@@ -225,8 +251,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             // Guardar datos adicionales del usuario en Firestore
             const userId = user.uid;
-            // La ruta para guardar datos privados de usuario en Firestore debe ser:
-            // /artifacts/{appId}/users/{userId}/{your_collection_name}/{documentId}
             await setDoc(doc(db, `artifacts/${appId}/users/${userId}/profile`, "data"), {
                 fullName: document.getElementById('reg-full-name').value,
                 bloodType: document.getElementById('reg-blood-type').value,
@@ -260,7 +284,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // 9. Lógica de cerrar sesión
+    // 10. Lógica de cerrar sesión
     logoutButton.addEventListener('click', async () => {
         try {
             await signOut(auth);
@@ -273,7 +297,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // 10. Validación de coincidencia de contraseñas en tiempo real
+    // 11. Validación de coincidencia de contraseñas en tiempo real
     regConfirmPassword.addEventListener('input', () => {
         if (regPassword.value !== regConfirmPassword.value) {
             passwordMatchError.classList.remove('hidden');
@@ -289,7 +313,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // 11. Placeholder para solicitar permiso de notificaciones (se activará más adelante)
+    // 12. Placeholder para solicitar permiso de notificaciones (se activará más adelante)
     async function requestNotificationPermission() {
         if ('Notification' in window) {
             const permission = await Notification.requestPermission();
