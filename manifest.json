@@ -1,6 +1,6 @@
 {
-    "name": "Mi PWA de Salud",
-    "short_name": "Salud App",
+    "name": "RenalApp",
+    "short_name": "RenalApp",
     "description": "Aplicación de salud para seguimiento y recordatorios.",
     "start_url": "/renal/index.html",
     "scope": "/renal/",
