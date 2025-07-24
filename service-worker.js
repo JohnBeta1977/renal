@@ -1,6 +1,5 @@
 const CACHE_NAME = 'pwa-salud-cache-v1';
-// IMPORTANTE: Reemplaza 'YOUR_REPO_NAME' con el nombre de tu repositorio de GitHub.
-// Por ejemplo, si tu URL es https://usuario.github.io/mi-pwa-app/, entonces YOUR_REPO_NAME es 'mi-pwa-app'.
+// La ruta base para tu repositorio en GitHub Pages
 const REPO_BASE_PATH = '/renal/'; 
 
 const urlsToCache = [
