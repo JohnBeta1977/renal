@@ -1,1 +1,142 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RenalApp - Mi Salud</title>
+
+    <!-- Meta etiquetas de SEO -->
+    <meta name="description" content="Panel principal de RenalApp para seguimiento de salud, medicamentos y citas.">
+    <meta name="keywords" content="salud, PWA, recordatorios, citas, medicamentos, insuficiencia renal, bienestar, autocuidado, pacientes, salud digital, RenalApp">
+    <meta name="author" content="RenalApp Team">
+    
+    <!-- Open Graph / Redes Sociales -->
+    <meta property="og:title" content="RenalApp - Mi Salud">
+    <meta property="og:description" content="Panel principal de RenalApp.">
+    <meta property="og:image" content="https://johnbeta1977.github.io/renal/logo.png">
+    <meta property="og:url" content="https://johnbeta1977.github.io/renal/app.html"> 
+    <meta property="og:type" content="website">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/renal/logo.png" type="image/png">
+
+    <!-- Carga de Tailwind CSS CDN para estilos rápidos y responsivos -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Enlace a tu archivo de estilos personalizado -->
+    <link rel="stylesheet" href="/renal/style.css">
+    <!-- Enlace al manifest de la PWA -->
+    <link rel="manifest" href="/renal/manifest.json">
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <!-- Contenedor principal de la aplicación (contenido interno) -->
+    <div id="main-app-container" class="flex flex-col items-center justify-center active-section">
+
+        <!-- Encabezado Superior -->
+        <header class="app-header">
+            <div class="flex items-center">
+                <img src="/renal/logo.png" alt="Logo de RenalApp" class="h-8 w-8 mr-2" onerror="this.onerror=null;this.src='https://placehold.co/32x32/CCCCCC/000000?text=L';">
+                <h1 class="text-xl font-bold text-white">RenalApp</h1>
+            </div>
+            <div class="header-line"></div>
+            <div class="relative">
+                <button id="header-menu-button" class="text-white text-2xl focus:outline-none">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
+                <div id="header-dropdown-menu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20 hidden">
+                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-blue-100">Quiénes somos</a>
+                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-blue-100">Preguntas Frecuentes</a>
+                    <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-blue-100">Contacto</a>
+                    <a href="#" id="logout-button-dropdown" class="block px-4 py-2 text-red-600 hover:bg-red-100">Cerrar Sesión</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Contenido de las sub-secciones de la aplicación -->
+        <div class="flex-grow overflow-y-auto p-4">
+            <div id="home-section-content" class="app-sub-section active-sub-section">
+                <h3 class="text-2xl font-bold mb-4">Inicio</h3>
+                <p>Bienvenido a tu panel principal de RenalApp. Aquí verás un resumen de tu salud.</p>
+                <!-- Contenido específico de Inicio -->
+            </div>
+
+            <div id="fluid-section-content" class="app-sub-section hidden-sub-section">
+                <h3 class="text-2xl font-bold mb-4">Líquido</h3>
+                <p>Registra tu ingesta y eliminación de líquidos aquí.</p>
+                <!-- Contenido específico de Líquido -->
+            </div>
+
+            <div id="medications-section-content" class="app-sub-section hidden-sub-section">
+                <h3 class="text-2xl font-bold mb-4">Medicamentos</h3>
+                <p>Gestiona tus medicamentos y recordatorios.</p>
+                <!-- Contenido específico de Medicamentos -->
+            </div>
+
+            <div id="appointments-section-content" class="app-sub-section hidden-sub-section">
+                <h3 class="text-2xl font-bold mb-4">Citas/Lab.</h3>
+                <p>Consulta tus próximas citas y resultados de laboratorio.</p>
+                <!-- Contenido específico de Citas/Lab. -->
+            </div>
+
+            <div id="profile-section-content" class="app-sub-section hidden-sub-section">
+                <h3 class="text-2xl font-bold mb-4">Perfil</h3>
+                <div class="flex flex-col items-center mb-4">
+                    <img id="profile-photo-display" src="/renal/logo.png" alt="Foto de perfil" class="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg mb-4" onerror="this.onerror=null;this.src='https://placehold.co/128x128/CCCCCC/000000?text=Foto';">
+                    <input type="file" id="profile-photo-upload" accept="image/*" class="hidden">
+                    <button id="upload-photo-button" class="btn-secondary text-blue-800 bg-white hover:bg-gray-100 mb-2">Subir o Tomar Foto</button>
+                </div>
+                <div id="user-profile-info" class="text-left bg-white text-gray-800 p-4 rounded-lg shadow-md w-full">
+                    <p><strong>Nombre:</strong> <span id="profile-full-name">Cargando...</span></p>
+                    <p><strong>Tipo de Sangre:</strong> <span id="profile-blood-type">Cargando...</span></p>
+                    <p><strong>Edad:</strong> <span id="profile-age">Cargando...</span> años</p>
+                    <p><strong>Condición de Salud:</strong> <span id="profile-disease">Cargando...</span></p>
+                    <p><strong>EPS:</strong> <span id="profile-eps">Cargando...</span></p>
+                    <p><strong>Correo:</strong> <span id="profile-email">Cargando...</span></p>
+                    <p><strong>Cuidador:</strong> <span id="profile-caregiver-name">Cargando...</span></p>
+                    <p><strong>Tel. Cuidador:</strong> <span id="profile-caregiver-phone">Cargando...</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Barra de Navegación Inferior -->
+        <nav class="bottom-nav">
+            <a href="#" id="nav-home" class="nav-item active-nav">
+                <i class="fas fa-home nav-icon"></i>
+                <span>Inicio</span>
+            </a>
+            <a href="#" id="nav-fluid" class="nav-item">
+                <i class="fas fa-tint nav-icon"></i>
+                <span>Líquido</span>
+            </a>
+            <a href="#" id="nav-medications" class="nav-item">
+                <i class="fas fa-pills nav-icon"></i>
+                <span>Medicamentos</span>
+            </a>
+            <a href="#" id="nav-appointments" class="nav-item">
+                <i class="fas fa-calendar-alt nav-icon"></i>
+                <span>Citas/Lab.</span>
+            </a>
+            <a href="#" id="nav-profile" class="nav-item">
+                <i class="fas fa-user nav-icon"></i>
+                <span>Perfil</span>
+            </a>
+        </nav>
+
+    </div>
+
+    <!-- Modal personalizado para mensajes (se mantiene para app.html también) -->
+    <div id="custom-alert-modal" class="custom-modal">
+        <div class="modal-content">
+            <h3 id="modal-title"></h3>
+            <p id="modal-message"></p>
+            <button id="modal-close-button">Aceptar</button>
+        </div>
+    </div>
+
+    <!-- Enlace al archivo JavaScript de la aplicación principal -->
+    <script type="module" src="/renal/app.js"></script>
+</body>
+</html>
