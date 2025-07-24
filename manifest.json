@@ -1,0 +1,51 @@
+{
+    "name": "Mi PWA de Salud",
+    "short_name": "Salud App",
+    "description": "Aplicación de salud para seguimiento y recordatorios.",
+    "start_url": "./index.html",
+    "display": "fullscreen",
+    "background_color": "#1D4ED8",
+    "theme_color": "#3B82F6",
+    "icons": [
+        {
+            "src": "https://placehold.co/48x48/1D4ED8/FFFFFF?text=SA",
+            "sizes": "48x48",
+            "type": "image/png"
+        },
+        {
+            "src": "https://placehold.co/72x72/1D4ED8/FFFFFF?text=SA",
+            "sizes": "72x72",
+            "type": "image/png"
+        },
+        {
+            "src": "https://placehold.co/96x96/1D4ED8/FFFFFF?text=SA",
+            "sizes": "96x96",
+            "type": "image/png"
+        },
+        {
+            "src": "https://placehold.co/128x128/1D4ED8/FFFFFF?text=SA",
+            "sizes": "128x128",
+            "type": "image/png"
+        },
+        {
+            "src": "https://placehold.co/144x144/1D4ED8/FFFFFF?text=SA",
+            "sizes": "144x144",
+            "type": "image/png"
+        },
+        {
+            "src": "https://placehold.co/192x192/1D4ED8/FFFFFF?text=SA",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "https://placehold.co/256x256/1D4ED8/FFFFFF?text=SA",
+            "sizes": "256x256",
+            "type": "image/png"
+        },
+        {
+            "src": "https://placehold.co/512x512/1D4ED8/FFFFFF?text=SA",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

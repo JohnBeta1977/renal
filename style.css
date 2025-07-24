@@ -1,0 +1,254 @@
+/* Configuración de la fuente Inter para una apariencia moderna */
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    /* Imagen de fondo global */
+    background-image: url('fondo_01.jpg');
+    background-size: cover; /* Cubre toda el área */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* No repite la imagen */
+    background-attachment: fixed; /* Mantiene la imagen fija al hacer scroll */
+}
+
+/* Estilos para el splash screen */
+#splash-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(to bottom right, #3B82F6, #1D4ED8); /* Degradado azul */
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    opacity: 1;
+    transition: opacity 0.5s ease-out; /* Transición suave para el desvanecimiento */
+}
+
+#splash-screen.hidden {
+    opacity: 0;
+    pointer-events: none; /* Permite clics a través una vez oculto */
+}
+
+/* Estilos para el contenedor principal de la aplicación */
+#app-container {
+    display: none; /* Oculto inicialmente, se muestra después del splash */
+    height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la ventana */
+    background: linear-gradient(to bottom right, #3B82F6, #1D4ED8); 
+    padding: 1rem;
+    box-sizing: border-box;
+    overflow-y: auto; /* Permite scroll si el contenido excede la altura */
+}
+
+/* Estilos para las secciones de contenido */
+section {
+    display: none; /* Por defecto, todas las secciones están ocultas */
+}
+
+section.active-section {
+    display: block; /* La sección activa se muestra */
+}
+
+/* Estilos comunes para las tarjetas de formulario */
+.form-card {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 1rem; /* Bordes redondeados */
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    max-width: 400px; /* Ancho máximo para formularios */
+    width: 100%;
+    margin: 2rem auto; /* Centrar y añadir margen */
+}
+
+/* Estilos para campos de entrada */
+.input-field {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #D1D5DB; /* Borde gris claro */
+    border-radius: 0.5rem; /* Bordes redondeados */
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: #3B82F6; /* Borde azul al enfocar */
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25); /* Sombra de enfoque */
+}
+
+/* Estilos para botones principales */
+.btn-primary {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #1D4ED8; /* Azul oscuro */
+    color: white;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-color: #2563EB; /* Azul más claro al pasar el ratón */
+    transform: translateY(-1px); /* Efecto ligero de elevación */
+}
+
+.btn-primary:active {
+    transform: translateY(0); /* Vuelve a la posición original al hacer clic */
+}
+
+/* Estilos para botones secundarios/enlaces */
+.btn-secondary {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #E0F2FE; /* Azul muy claro */
+    color: #1D4ED8; /* Texto azul oscuro */
+    border-radius: 0.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+    border: 1px solid #BFDBFE; /* Borde azul claro */
+}
+
+.btn-secondary:hover {
+    background-color: #BFDBFE; /* Azul claro al pasar el ratón */
+    transform: translateY(-1px);
+}
+
+.btn-secondary:active {
+    transform: translateY(0);
+}
+
+/* Estilos para enlaces de texto */
+.text-link {
+    color: #1D4ED8;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease-in-out;
+}
+
+.text-link:hover {
+    color: #2563EB;
+    text-decoration: underline;
+}
+
+/* Estilo para el logo de la aplicación */
+.app-logo {
+    width: 80px; /* Tamaño del logo */
+    height: 80px;
+    margin-bottom: 1rem;
+}
+
+/* Estilo para el título de la aplicación */
+.app-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 2rem;
+}
+
+/* Estilos para mensajes de error */
+.error-message {
+    color: #EF4444; /* Rojo */
+    font-size: 0.875rem;
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
+    text-align: left;
+}
+
+/* Estilos para el modal personalizado */
+.custom-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.custom-modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+}
+
+.modal-content h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.modal-content p {
+    margin-bottom: 1.5rem;
+    color: #555;
+}
+
+.modal-content button {
+    padding: 0.75rem 1.5rem;
+    background-color: #1D4ED8;
+    color: white;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.modal-content button:hover {
+    background-color: #2563EB;
+}
+
+/* Estilos para el botón de instalación de PWA */
+#install-button-container {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: none; /* Oculto por defecto */
+}
+
+#install-button {
+    padding: 0.8rem 1.5rem;
+    background-color: #FFD700; /* Un color que resalte, como dorado */
+    color: #333;
+    border-radius: 9999px; /* Botón pill-shaped */
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+}
+
+#install-button:hover {
+    background-color: #FFC107;
+    transform: translateY(-2px);
+}
+
+#install-button:active {
+    transform: translateY(0);
+}
