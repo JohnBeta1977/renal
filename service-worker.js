@@ -1,11 +1,15 @@
 const CACHE_NAME = 'pwa-salud-cache-v1';
+// IMPORTANTE: Reemplaza 'YOUR_REPO_NAME' con el nombre de tu repositorio de GitHub.
+// Por ejemplo, si tu URL es https://usuario.github.io/mi-pwa-app/, entonces YOUR_REPO_NAME es 'mi-pwa-app'.
+const REPO_BASE_PATH = '/renal/'; 
+
 const urlsToCache = [
-    './', // Cacha la raíz, que es index.html
-    './index.html',
-    './style.css', // ¡Ahora cacheamos nuestro CSS separado!
-    './main.js',   // ¡Ahora cacheamos nuestro JS separado!
-    './logo.png',  // Cacha el archivo del logo
-    './fondo_01.jpg', // Cacha el archivo de la imagen de fondo
+    REPO_BASE_PATH, // Cacha la raíz del repositorio, que es donde se servirá index.html
+    `${REPO_BASE_PATH}index.html`,
+    `${REPO_BASE_PATH}style.css`,
+    `${REPO_BASE_PATH}main.js`,
+    `${REPO_BASE_PATH}logo.png`,
+    `${REPO_BASE_PATH}fondo_01.jpg`,
     'https://cdn.tailwindcss.com', // Cacha el CDN de Tailwind
     // Aquí puedes añadir más URLs de activos estáticos que quieras cachear
 ];
