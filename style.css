@@ -3,39 +3,19 @@ body {
     font-family: 'Inter', sans-serif;
     margin: 0;
     /* Imagen de fondo global */
-    background-image: url('fondo_01.jpg');
+    background-image: url('/renal/fondo_01.jpg');
     background-size: cover; /* Cubre toda el área */
     background-position: center; /* Centra la imagen */
     background-repeat: no-repeat; /* No repite la imagen */
     background-attachment: fixed; /* Mantiene la imagen fija al hacer scroll */
 }
 
-/* Estilos para el splash screen */
-#splash-screen {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    width: 100vw;
-    background: linear-gradient(to bottom right, #3B82F6, #1D4ED8); /* Degradado azul */
-    color: white;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    opacity: 1;
-    transition: opacity 0.5s ease-out; /* Transición suave para el desvanecimiento */
-}
-
-#splash-screen.hidden {
-    opacity: 0;
-    pointer-events: none; /* Permite clics a través una vez oculto */
-}
-
 /* Estilos para el contenedor principal de la aplicación */
 #app-container {
-    display: none; /* Oculto inicialmente, se muestra después del splash */
+    display: flex; /* Ahora es visible por defecto */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la ventana */
     background: linear-gradient(to bottom right, #3B82F6, #1D4ED8); 
     padding: 1rem;
