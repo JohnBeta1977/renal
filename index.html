@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RenalApp</title>
+    <title>RenalApp - Acceso</title>
 
     <!-- Meta etiquetas de SEO -->
-    <meta name="description" content="Aplicación de salud para seguimiento y recordatorios de citas, medicamentos y bienestar, especialmente para pacientes con insuficiencia renal.">
-    <meta name="keywords" content="salud, PWA, recordatorios, citas, medicamentos, insuficiencia renal, bienestar, autocuidado, pacientes, salud digital, RenalApp">
+    <meta name="description" content="Página de acceso y registro para RenalApp, tu aplicación de salud para seguimiento y recordatorios.">
+    <meta name="keywords" content="salud, PWA, recordatorios, citas, medicamentos, insuficiencia renal, bienestar, autocuidado, pacientes, salud digital, RenalApp, login, registro">
     <meta name="author" content="RenalApp Team">
     
     <!-- Open Graph / Redes Sociales -->
-    <meta property="og:title" content="RenalApp">
-    <meta property="og:description" content="Aplicación de salud para seguimiento y recordatorios de citas, medicamentos y bienestar.">
+    <meta property="og:title" content="RenalApp - Acceso">
+    <meta property="og:description" content="Página de acceso y registro para RenalApp.">
     <meta property="og:image" content="https://johnbeta1977.github.io/renal/logo.png">
     <meta property="og:url" content="https://johnbeta1977.github.io/renal/"> 
     <meta property="og:type" content="website">
@@ -38,9 +38,9 @@
         <h1 class="app-title">RenalApp</h1>
     </div>
 
-    <!-- Contenedor principal de la aplicación -->
+    <!-- Contenedor principal de la aplicación (Login/Registro) -->
     <!-- Inicialmente oculto, se mostrará después del splash screen -->
-    <div id="app-container" class="flex flex-col items-center justify-center">
+    <div id="auth-container" class="flex flex-col items-center justify-center">
 
         <!-- Sección de Inicio de Sesión -->
         <section id="login-section" class="form-card text-center active-section">
@@ -51,7 +51,7 @@
                     <h1 class="text-xl font-bold text-white">RenalApp</h1>
                 </div>
                 <div class="header-line"></div>
-                <!-- Menú de 3 puntos (solo visual aquí, funcional en main-app-section) -->
+                <!-- Menú de 3 puntos (solo visual aquí) -->
                 <button class="text-white text-2xl focus:outline-none">
                     <i class="fas fa-ellipsis-v"></i>
                 </button>
@@ -84,7 +84,7 @@
                     <h1 class="text-xl font-bold text-white">RenalApp</h1>
                 </div>
                 <div class="header-line"></div>
-                <!-- Menú de 3 puntos (solo visual aquí, funcional en main-app-section) -->
+                <!-- Menú de 3 puntos (solo visual aquí) -->
                 <button class="text-white text-2xl focus:outline-none">
                     <i class="fas fa-ellipsis-v"></i>
                 </button>
@@ -123,99 +123,6 @@
             </form>
 
             <a href="#" id="back-to-login-link" class="text-link">Volver a Iniciar Sesión</a>
-        </section>
-
-        <!-- Sección de Contenido Principal de la App (oculta inicialmente, se mostrará tras login) -->
-        <section id="main-app-section" class="hidden-section w-full max-w-lg mx-auto text-center text-white flex flex-col h-full">
-            <!-- Encabezado Superior -->
-            <header class="app-header">
-                <div class="flex items-center">
-                    <img src="/renal/logo.png" alt="Logo de RenalApp" class="h-8 w-8 mr-2" onerror="this.onerror=null;this.src='https://placehold.co/32x32/CCCCCC/000000?text=L';">
-                    <h1 class="text-xl font-bold text-white">RenalApp</h1>
-                </div>
-                <div class="header-line"></div>
-                <div class="relative">
-                    <button id="header-menu-button" class="text-white text-2xl focus:outline-none">
-                        <i class="fas fa-ellipsis-v"></i>
-                    </button>
-                    <div id="header-dropdown-menu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20 hidden">
-                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-blue-100">Quiénes somos</a>
-                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-blue-100">Preguntas Frecuentes</a>
-                        <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-blue-100">Contacto</a>
-                        <a href="#" id="logout-button-dropdown" class="block px-4 py-2 text-red-600 hover:bg-red-100">Cerrar Sesión</a>
-                    </div>
-                </div>
-            </header>
-
-            <!-- Contenido de las sub-secciones de la aplicación -->
-            <div class="flex-grow overflow-y-auto p-4">
-                <div id="home-section-content" class="app-sub-section active-sub-section">
-                    <h3 class="text-2xl font-bold mb-4">Inicio</h3>
-                    <p>Bienvenido a tu panel principal de RenalApp. Aquí verás un resumen de tu salud.</p>
-                    <!-- Contenido específico de Inicio -->
-                </div>
-
-                <div id="fluid-section-content" class="app-sub-section hidden-sub-section">
-                    <h3 class="text-2xl font-bold mb-4">Líquido</h3>
-                    <p>Registra tu ingesta y eliminación de líquidos aquí.</p>
-                    <!-- Contenido específico de Líquido -->
-                </div>
-
-                <div id="medications-section-content" class="app-sub-section hidden-sub-section">
-                    <h3 class="text-2xl font-bold mb-4">Medicamentos</h3>
-                    <p>Gestiona tus medicamentos y recordatorios.</p>
-                    <!-- Contenido específico de Medicamentos -->
-                </div>
-
-                <div id="appointments-section-content" class="app-sub-section hidden-sub-section">
-                    <h3 class="text-2xl font-bold mb-4">Citas/Lab.</h3>
-                    <p>Consulta tus próximas citas y resultados de laboratorio.</p>
-                    <!-- Contenido específico de Citas/Lab. -->
-                </div>
-
-                <div id="profile-section-content" class="app-sub-section hidden-sub-section">
-                    <h3 class="text-2xl font-bold mb-4">Perfil</h3>
-                    <div class="flex flex-col items-center mb-4">
-                        <img id="profile-photo-display" src="/renal/logo.png" alt="Foto de perfil" class="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg mb-4" onerror="this.onerror=null;this.src='https://placehold.co/128x128/CCCCCC/000000?text=Foto';">
-                        <input type="file" id="profile-photo-upload" accept="image/*" class="hidden">
-                        <button id="upload-photo-button" class="btn-secondary text-blue-800 bg-white hover:bg-gray-100 mb-2">Subir o Tomar Foto</button>
-                    </div>
-                    <div id="user-profile-info" class="text-left bg-white text-gray-800 p-4 rounded-lg shadow-md w-full">
-                        <p><strong>Nombre:</strong> <span id="profile-full-name">Cargando...</span></p>
-                        <p><strong>Tipo de Sangre:</strong> <span id="profile-blood-type">Cargando...</span></p>
-                        <p><strong>Edad:</strong> <span id="profile-age">Cargando...</span> años</p>
-                        <p><strong>Condición de Salud:</strong> <span id="profile-disease">Cargando...</span></p>
-                        <p><strong>EPS:</strong> <span id="profile-eps">Cargando...</span></p>
-                        <p><strong>Correo:</strong> <span id="profile-email">Cargando...</span></p>
-                        <p><strong>Cuidador:</strong> <span id="profile-caregiver-name">Cargando...</span></p>
-                        <p><strong>Tel. Cuidador:</strong> <span id="profile-caregiver-phone">Cargando...</span></p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Barra de Navegación Inferior -->
-            <nav class="bottom-nav">
-                <a href="#" id="nav-home" class="nav-item active-nav">
-                    <i class="fas fa-home nav-icon"></i>
-                    <span>Inicio</span>
-                </a>
-                <a href="#" id="nav-fluid" class="nav-item">
-                    <i class="fas fa-tint nav-icon"></i>
-                    <span>Líquido</span>
-                </a>
-                <a href="#" id="nav-medications" class="nav-item">
-                    <i class="fas fa-pills nav-icon"></i>
-                    <span>Medicamentos</span>
-                </a>
-                <a href="#" id="nav-appointments" class="nav-item">
-                    <i class="fas fa-calendar-alt nav-icon"></i>
-                    <span>Citas/Lab.</span>
-                </a>
-                <a href="#" id="nav-profile" class="nav-item">
-                    <i class="fas fa-user nav-icon"></i>
-                    <span>Perfil</span>
-                </a>
-            </nav>
         </section>
 
     </div>
