@@ -14,37 +14,31 @@
     <meta property="og:title" content="Mi PWA de Salud">
     <meta property="og:description" content="Aplicación de salud para seguimiento y recordatorios de citas, medicamentos y bienestar.">
     <!-- Reemplaza esta URL con la URL real de tu imagen de logo para redes sociales -->
-    <meta property="og:image" content="https://placehold.co/1200x630/1D4ED8/FFFFFF?text=Mi+PWA+de+Salud">
+    <meta property="og:image" content="https://johnbeta1977.github.io/renal/logo.png">
     <!-- Reemplaza esta URL con la URL real de tu aplicación -->
-    <meta property="og:url" content="https://tupwa.com"> 
+    <meta property="og:url" content="https://johnbeta1977.github.io/renal/"> 
     <meta property="og:type" content="website">
 
     <!-- Favicon -->
-    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="icon" href="/renal/logo.png" type="image/png">
 
     <!-- Carga de Tailwind CSS CDN para estilos rápidos y responsivos -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Enlace a tu archivo de estilos personalizado -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/renal/style.css">
     <!-- Enlace al manifest de la PWA -->
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="/renal/manifest.json">
 </head>
 <body>
 
-    <!-- Splash Screen -->
-    <div id="splash-screen">
-        <!-- Logo de la aplicación -->
-        <img src="logo.png" alt="Logo de la aplicación" class="app-logo" onerror="this.onerror=null;this.src='https://placehold.co/80x80/CCCCCC/000000?text=Logo';">
-        <h1 class="app-title">Mi PWA de Salud</h1>
-    </div>
-
     <!-- Contenedor principal de la aplicación -->
+    <!-- Ahora el app-container será visible desde el inicio, gestionado por main.js -->
     <div id="app-container" class="flex flex-col items-center justify-center">
 
         <!-- Sección de Inicio de Sesión -->
         <section id="login-section" class="form-card text-center active-section">
             <!-- Logo de la aplicación para la página de login -->
-            <img src="logo.png" alt="Logo de la aplicación" class="app-logo mx-auto" onerror="this.onerror=null;this.src='https://placehold.co/80x80/CCCCCC/000000?text=Logo';">
+            <img src="/renal/logo.png" alt="Logo de la aplicación" class="app-logo mx-auto" onerror="this.onerror=null;this.src='https://placehold.co/80x80/CCCCCC/000000?text=Logo';">
             <h2 class="text-2xl font-bold text-gray-800 mb-6">Bienvenido</h2>
 
             <form id="login-form">
@@ -123,6 +117,6 @@
     </div>
 
     <!-- Enlace a tu archivo JavaScript principal -->
-    <script type="module" src="main.js"></script>
+    <script type="module" src="/renal/main.js"></script>
 </body>
 </html>
